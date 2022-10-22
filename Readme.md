@@ -54,14 +54,15 @@ Map format example:
 
 ### Tasks:
 
-- [ ] Press ESC must close windows
+- [X] Press ESC must close window
 - [ ] Resize windows management must remain smooth
-- [ ] Every movement must be displayed in the shell
+- [X] Every movement must be displayed in the shell
 
 - [ ] Use of images of the miniLibX is mandatory
 - 
 - [ ] Movement W, A, S, D
-- [ ] Movement up, down, left, right
+- [X] Movement up, down, left, right
 
 - [ ] Need collect every collectible present
 - [ ] Player can't be able to move into walls
+- [ ] If map contains a duplicate character exit/start you should display an error message
