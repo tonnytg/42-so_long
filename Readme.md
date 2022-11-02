@@ -52,6 +52,10 @@ Map format example:
     1111111111111
 
 
+Image Game
+
+![alt text](image_1.png)
+
 ### Tasks:
 
 - [X] Press ESC must close window
