@@ -8,7 +8,12 @@ clean:
 	rm -f main
 
 fclean: clean
-	rm -f main
+	rm src/minilibx/libmlx_Darwin.a
+	rm src/minilibx/libmlx.a
+	rm src/minilibx/test/main.o
+	rm src/minilibx/test/mlx-test
+	rm -rf src/minilibx/obj/
+
 
 re:
 	make fclean
