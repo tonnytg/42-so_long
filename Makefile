@@ -2,7 +2,7 @@ SRC=./src
 
 all:
 	make -C $(SRC)/minilibx
-	clang $(SRC)/main.c $(SRC)/get_next_line.c $(SRC)/utils.c -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o main
+	clang -g3 $(SRC)/main.c $(SRC)/get_next_line.c $(SRC)/utils.c -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o main
 
 clean:
 	rm -f main

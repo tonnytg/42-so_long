@@ -27,6 +27,11 @@
 # include <stdio.h>
 # include <string.h>
 
+typedef struct s_map
+{
+	int		**location;
+}	t_map;
+
 typedef struct s_game
 {
 	void	*mlx;

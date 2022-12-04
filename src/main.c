@@ -35,29 +35,47 @@ int	key_event(int key)
 	return (0);
 }
 
-int	loadMap(char **args)
+int	loadMap(t_map *map, char **args)
 {
+	int		column;
+	int		line;
 	int		fd;
-	char	*word;
-	// TODO: check if map is valid
-	printf("%s\n", args[1]);
+	char	*temp;
+
+	map->location[0] = (int *)malloc(sizeof(int *) * 10);
+	map->location[1] = (int *)malloc(sizeof(int *) * 10);
+	map->location[2] = (int *)malloc(sizeof(int *) * 10);
+	map->location[3] = (int *)malloc(sizeof(int *) * 10);
+	map->location[4] = (int *)malloc(sizeof(int *) * 10);
 	fd = open(args[1], O_RDONLY);
-	word = get_next_line(fd);
-	while (word != NULL)
+	temp = get_next_line(fd);
+	if (temp == NULL)
+		return (1);
+	line = 0;
+	while (temp != NULL && line < 5)
 	{
-		printf("word=%s", word);
-		word = get_next_line(fd);
+		column = 0;
+		while(column < 14)
+		{
+			if (temp[column] != '\n')
+				map->location[line][column] = temp[column];
+			column++;
+		}
+		temp = get_next_line(fd);
+		if (temp == NULL)
+			return (1);
+		line++;
 	}
-	printf("\n");
-	// TODO: Create a function to read map
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	t_game	game;
+	t_map	map;
 	char	*text;
 
+	map.location = malloc(sizeof(int *) * 50);
 	if (argc != 2)
 	{
 		printf("error to read argument of map\n");
@@ -66,7 +84,7 @@ int	main(int argc, char **argv)
 	game.mlx = mlx_init();
 	if (game.mlx == NULL)
 		printf("Error: mlx_init() returned NULL\n");
-	loadMap(argv);
+	loadMap(&map, argv);
 	game.window = mlx_new_window(game.mlx, 350, 250, "Hello world!");
 	mlx_hook(game.window, 17, 1L << 2, destroy_window, &game);
 	mlx_key_hook(game.window, key_event, 0);
