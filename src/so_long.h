@@ -19,6 +19,7 @@
 # define LEFT 65361
 # define RIGHT 65363
 # define BUFFER_SIZE 42
+# define PIXEL_SIZE 32
 
 # include <mlx.h>
 # include <fcntl.h>
@@ -32,14 +33,35 @@ typedef struct s_map
 	int		**location;
 }	t_map;
 
+typedef struct s_images
+{
+	void	*floor;
+	int		*wall;
+	int		x;
+	int		y;
+	void	*collectible;
+	void	*exit;
+	void	*player;
+}	t_images;
+
+typedef struct s_player
+{
+	int x;
+	int y;
+} t_player;
+
 typedef struct s_game
 {
-	void	*mlx;
-	void	*window;
-	char	**map;
-	int		width;
-	int		height;
+	void			*mlx;
+	void			*window;
+	int				width;
+	int				height;
+	struct s_images	*images;
+	struct s_map	*map;
+	struct s_player	*player;
 }	t_game;
+
+
 
 char	*get_next_line(int fd);
 int		ft_count_word(char *str, int *start);
@@ -50,5 +72,6 @@ char	*get_data(int fd, char *data);
 char	*ft_char_append(char *s1, char c);
 char	*ft_read_buff(int fd);
 char	*ft_strdup(char *str);
+int buildMap(t_map *map, t_game *game, t_images *images, t_player *player);
 
 #endif //SO_LONG_H
