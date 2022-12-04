@@ -12,75 +12,72 @@
 
 #include "so_long.h"
 
-int	ft_line_length(int fd)
+char	*ft_check_cache(char *cache, char *line, int fd, int *x)
 {
-	char	buffer[0];
-	int		length;
-	int		bytes;
-
-	buffer[0] = '\0';
-	bytes = 1;
-	length = 0;
-	while (bytes == 1)
-	{
-		bytes = read(fd, buffer, 1);
-		if (buffer[0] != '\n')
-			length++;
-		else
-			break ;
-	}
-	return (length);
+	cache = ft_read_buff(fd);
+	*x = 0;
+	if (!cache)
+		if (line[0] == '\0')
+			return (NULL);
+	return (cache);
 }
 
-int	ft_count_lines(int fd)
+char	*run_loop(char *cache, char *line, int *x, int *trigger)
 {
-	int		linecount;
-	char	buffer[0];
-	int		bytes;
+	int	length;
 
-	buffer[0] = '\0';
-	linecount = 1;
+	length = ft_strlen(cache);
+	while (*x < length)
+	{
+		line = ft_char_append(line, cache[*x]);
+		if (cache[*x] == '\n')
+		{
+			*trigger = 1;
+			*x = *x + 1;
+			break ;
+		}
+		*x = *x + 1;
+	}
+	return (line);
+}
+
+char	*build_line(int fd)
+{
+	static char	*cache;
+	char		*line;
+	static int	x;
+	int			trigger;
+
+	line = ft_strdup("");
+	trigger = 0;
 	while (1)
 	{
-		bytes = read(fd, buffer, 1);
-		if (bytes < 1)
+		if (!cache)
+		{
+			cache = ft_check_cache(cache, line, fd, &x);
+		}
+		if (!cache)
+			return (line);
+		line = run_loop(cache, line, &x, &trigger);
+		if (trigger == 1)
 			break ;
-		if (buffer[0] == '\n')
-			linecount++;
+		free(cache);
+		cache = NULL;
 	}
-	return (linecount);
-}
-
-void	*myfree(void *str)
-{
-	free(str);
-	return (NULL);
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	char	buffer;
 	char	*line;
-	int		rd_byte;
-	int		i;
 
-	rd_byte = 1;
-	i = 0;
-	line = (char *)malloc(sizeof(char) * 9999);
-	buffer = 0;
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (rd_byte > 0)
+	line = build_line(fd);
+	if (line[0] == '\0')
 	{
-		rd_byte = read(fd, &buffer, 1);
-		if (rd_byte <= 0)
-			break ;
-		line[i++] = buffer;
-		if (buffer == '\n')
-			break ;
+		free(line);
+		return (NULL);
 	}
-	line[i] = '\0';
-	if (!*line)
-		myfree(line);
 	return (line);
 }

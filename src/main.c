@@ -35,20 +35,38 @@ int	key_event(int key)
 	return (0);
 }
 
+int	loadMap(char **args)
+{
+	int		fd;
+	char	*word;
+	// TODO: check if map is valid
+	printf("%s\n", args[1]);
+	fd = open(args[1], O_RDONLY);
+	word = get_next_line(fd);
+	while (word != NULL)
+	{
+		printf("word=%s", word);
+		word = get_next_line(fd);
+	}
+	printf("\n");
+	// TODO: Create a function to read map
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game	game;
+	char	*text;
 
 	if (argc != 2)
 	{
-		printf("error to read argument of map");
+		printf("error to read argument of map\n");
 		return (1);
 	}
 	game.mlx = mlx_init();
 	if (game.mlx == NULL)
-		printf("Error: mlx_init() returned NULL");
-	// TODO: check if map is valid
-	// TODO: Create a function to read map
+		printf("Error: mlx_init() returned NULL\n");
+	loadMap(argv);
 	game.window = mlx_new_window(game.mlx, 350, 250, "Hello world!");
 	mlx_hook(game.window, 17, 1L << 2, destroy_window, &game);
 	mlx_key_hook(game.window, key_event, 0);

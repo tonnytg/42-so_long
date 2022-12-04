@@ -18,12 +18,14 @@
 # define DOWN 65364
 # define LEFT 65361
 # define RIGHT 65363
+# define BUFFER_SIZE 42
 
 # include <mlx.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 
 typedef struct s_game
 {
@@ -35,5 +37,13 @@ typedef struct s_game
 }	t_game;
 
 char	*get_next_line(int fd);
+int		ft_count_word(char *str, int *start);
+size_t	ft_strlen(char const *str);
+char	*ft_str_join(char const *s1, char const *s2);
+char	*ft_split_str(char *str, int *start);
+char	*get_data(int fd, char *data);
+char	*ft_char_append(char *s1, char c);
+char	*ft_read_buff(int fd);
+char	*ft_strdup(char *str);
 
 #endif //SO_LONG_H
