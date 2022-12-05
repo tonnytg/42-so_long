@@ -12,6 +12,13 @@
 
 #include "so_long.h"
 
+int	destroy_window(t_game *game)
+{
+	printf("destroy window %p\n", game->window);
+	mlx_destroy_window(game->mlx, game->window);
+	exit(0);
+}
+
 int	buildWindow(t_game *game)
 {
 	game->width = 416;
@@ -115,6 +122,8 @@ int	buildMap(t_game *game)
 				game->player->y = line;
 				printf("Player position: %d, %d\n", game->player->x,
 					   game->player->y);
+				printf("Player moved: %d\n", game->player->moved);
+				printf("player collected: %d\n", game->player->collected);
 			}
 			column++;
 		}
@@ -151,6 +160,8 @@ int	keyPress(int keycode, t_game *game)
 
 	oldX = game->player->x;
 	oldY = game->player->y;
+	if (keycode == ESC)
+		destroy_window(game);
 	if (keycode == UP)
 		game->player->y--;
 	if (keycode == DOWN)
@@ -159,20 +170,35 @@ int	keyPress(int keycode, t_game *game)
 		game->player->x--;
 	if (keycode == RIGHT)
 		game->player->x++;
-	if (game->map->location[game->player->y][game->player->x] == '1')
+	if ((game->map->location[game->player->y][game->player->x] == '1') ||
+			(game->map->location[game->player->y][game->player->x] == 'E' &&
+		game->player->collected != 1))
 	{
 		game->player->x = oldX;
 		game->player->y = oldY;
 	}
 	else
 	{
+		if (game->map->location[game->player->y][game->player->x] == 'C')
+			game->player->collected++;
+		if (game->map->location[game->player->y][game->player->x] == 'E')
+		{
+			if (game->player->collected == 1)
+			{
+				printf("\n\n\nYou win!\n\n\n");
+				destroy_window(game);
+			}
+		}
 		game->map->location[oldY][oldX] = '0';
 		game->map->location[game->player->y][game->player->x] = 'P';
+		game->player->moved++;
 	}
 	mlx_clear_window(game->mlx, game->window);
 	buildMap(game);
 	return (0);
 }
+
+void perror(const char *s);
 
 int	main(int argc, char **argv)
 {
@@ -185,7 +211,7 @@ int	main(int argc, char **argv)
 	game->player = malloc(sizeof(t_player));
 	error = buildWindow(game);
 	if (error == 1)
-		return (1);
+		perror("Erro ao abrir arquivo.txt");
 	printf("width: %d\n", game->width);
 	printf("height: %d\n", game->height);
 	printf("window: %p\n", game->window);
@@ -194,6 +220,9 @@ int	main(int argc, char **argv)
 	buildMap(game);
 	printf("player x: %d\n", game->player->x);
 	printf("player y: %d\n", game->player->y);
+	printf("player moved: %d\n", game->player->moved);
+	printf("player collected: %d\n", game->player->collected);
+	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
 	mlx_hook(game->window, 2, 1L << 0, keyPress, game);
 	mlx_loop(game->mlx);
 	return (0);

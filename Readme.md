@@ -60,13 +60,13 @@ Image Game
 
 - [X] Press ESC must close window
 - [ ] Resize windows management must remain smooth
-- [X] Every movement must be displayed in the shell
+- [ ] Every movement must be displayed in the shell
 
-- [ ] Use of images of the miniLibX is mandatory
+- [X] Use of images of the miniLibX is mandatory
 - 
 - [ ] Movement W, A, S, D
 - [X] Movement up, down, left, right
 
 - [ ] Need collect every collectible present
-- [ ] Player can't be able to move into walls
+- [X] Player can't be able to move into walls
 - [ ] If map contains a duplicate character exit/start you should display an error message

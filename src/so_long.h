@@ -48,6 +48,8 @@ typedef struct s_player
 {
 	int x;
 	int y;
+	int moved;
+	int collected;
 } t_player;
 
 typedef struct s_game
