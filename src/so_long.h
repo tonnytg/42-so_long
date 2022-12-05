@@ -30,12 +30,12 @@
 
 typedef struct s_map
 {
+	int fd;
 	int		**location;
 }	t_map;
 
 typedef struct s_images
 {
-	void	*floor;
 	int		*wall;
 	int		x;
 	int		y;
@@ -72,6 +72,5 @@ char	*get_data(int fd, char *data);
 char	*ft_char_append(char *s1, char c);
 char	*ft_read_buff(int fd);
 char	*ft_strdup(char *str);
-int buildMap(t_map *map, t_game *game, t_images *images, t_player *player);
 
 #endif //SO_LONG_H

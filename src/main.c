@@ -12,53 +12,104 @@
 
 #include "so_long.h"
 
-int	destroy_window(t_game *game)
+int buildWindow(t_game *game)
 {
-	printf("destroy window %d\n", *(int *)game->window);
-	mlx_destroy_window(game->mlx, game->window);
+	game->width = 416;
+	game->height = 160;
+	game->mlx = mlx_init();
+	game->window = mlx_new_window(game->mlx, game->width, game->height, "so_long");
+	if (!game->window
+		|| !game->mlx)
+		return (1);
 	return (0);
 }
 
-int	exit_game(t_game *game)
+int loadMap(int argc, char **argv, t_game *game)
 {
-	printf("exit game\n");
-	destroy_window(game);
-	exit(0);
-}
-
-int	keyPressed(int key, t_player *player)
-{
-	printf("key pressed %d\n", key);
-	printf("key=%d\n", key);
-	if (key == ESC)
+	int column;
+	int line;
+	char *tempContent;
+	if (argc != 2)
+		return (1);
+	printf("Loading map...\n");
+	game->map->location = malloc(sizeof(int *) * 5);
+	game->map->location[0] = malloc(sizeof(int) * 15);
+	game->map->location[1] = malloc(sizeof(int) * 15);
+	game->map->location[2] = malloc(sizeof(int) * 15);
+	game->map->location[3] = malloc(sizeof(int) * 15);
+	game->map->location[4] = malloc(sizeof(int) * 15);
+	game->map->fd = open(argv[1], O_RDONLY);
+	tempContent = get_next_line(game->map->fd);
+	if (tempContent == NULL)
+		return (1);
+	line = 0;
+	while (line < 5)
 	{
-		printf("ESC\n");
-		exit(0);
-	}
-	if (key == UP)
-	{
-		printf("UP %d %d\n", player->x, player->y);
-		return (0);
-	}
-	if (key == DOWN)
-	{
-		printf("DOWN %d %d\n", player->x, player->y);
-		return (0);
-	}
-	if (key == LEFT)
-	{
-		printf("LEFT %d %d\n", player->x, player->y);
-		return (0);
-	}
-	if (key == RIGHT)
-	{
-		printf("RIGHT %d %d\n", player->x, player->y);
-		return (0);
+		column = 0;
+		while(column < 14)
+		{
+			if (tempContent[column] != '\n')
+				game->map->location[line][column] = tempContent[column];
+			column++;
+		}
+		tempContent = get_next_line(game->map->fd);
+		if (tempContent == NULL)
+			return (0);
+		line++;
 	}
 	return (0);
 }
 
+int loadImages(t_game *game)
+{
+	game->images->wall = mlx_xpm_file_to_image(game->mlx, "src/images/wall.xpm",
+											   &game->images->x, &game->images->y);
+	game->images->collectible = mlx_xpm_file_to_image(game->mlx, "src/images/collectible.xpm",
+													  &game->images->x, &game->images->y);
+	game->images->exit = mlx_xpm_file_to_image(game->mlx, "src/images/exit.xpm",
+											   &game->images->x, &game->images->y);
+	game->images->player = mlx_xpm_file_to_image(game->mlx, "src/images/player.xpm",
+												 &game->images->x, &game->images->y);
+	if (!game->images->wall
+		|| !game->images->collectible
+		|| !game->images->exit
+		|| !game->images->player)
+		return (1);
+	return (0);
+}
 
+int buildMap(t_game *game)
+{
+	printf("Building map...\n");
+	int column;
+	int line;
+
+	line = 0;
+	while (line < 5)
+	{
+		column = 0;
+		while (column < 14)
+		{
+			if (game->map->location[line][column] == '1')
+				mlx_put_image_to_window(game->mlx, game->window, game->images->wall, column * PIXEL_SIZE, line * PIXEL_SIZE);
+			if (game->map->location[line][column] == 'C')
+				mlx_put_image_to_window(game->mlx, game->window, game->images->collectible, column * PIXEL_SIZE, line * PIXEL_SIZE);
+			if (game->map->location[line][column] == 'E')
+				mlx_put_image_to_window(game->mlx, game->window, game->images->exit, column * PIXEL_SIZE, line * PIXEL_SIZE);
+			if (game->map->location[line][column] == 'P')
+			{
+				printf("Player found at %d, %d\n", column, line);
+				mlx_put_image_to_window(game->mlx, game->window, game->images->player, column * PIXEL_SIZE, line * PIXEL_SIZE);
+				game->player->x = column;
+				game->player->y = line;
+				printf("Player position: %d, %d\n", game->player->x, game->player->y);
+			}
+			column++;
+		}
+		line++;
+	}
+	return (0);
+}
 
 int readMap(t_map *map)
 {
@@ -81,145 +132,64 @@ int readMap(t_map *map)
 	return (0);
 }
 
-int loadImage(t_images *images, t_game *game)
+int keyPress(int keycode, t_game *game)
 {
-	images->wall = mlx_xpm_file_to_image(game->mlx, "src/wall.xpm", &images->x, &images->y);
-	if (!images->wall)
-		return (1);
-	images->player = mlx_xpm_file_to_image(game->mlx, "src/player.xpm", &images->x, &images->y);
-	if (!images->player)
-		return (1);
-	images->exit = mlx_xpm_file_to_image(game->mlx, "src/exit.xpm", &images->x, &images->y);
-	if (!images->exit)
-		return (1);
-	images->collectible = mlx_xpm_file_to_image(game->mlx, "src/collectible.xpm", &images->x, &images->y);
-	if (!images->collectible)
-		return (1);
-	return (0);
-}
+	printf("event happened %d\n", keycode);
+	printf("x: %d\n", game->player->x);
+	printf("y: %d\n", game->player->y);
 
-int buildMap(t_map *map, t_game *game, t_images *images, t_player *player)
-{
-	int column;
-	int line;
+	int oldX;
+	int oldY;
 
-	line = 0;
-	while (line < 5)
+	oldX = game->player->x;
+	oldY = game->player->y;
+	if (keycode == UP)
+		game->player->y--;
+	if (keycode == DOWN)
+		game->player->y++;
+	if (keycode == LEFT)
+		game->player->x--;
+	if (keycode == RIGHT)
+		game->player->x++;
+	if (game->map->location[game->player->y][game->player->x] == '1')
 	{
-		column = 0;
-		while (column < 14)
-		{
-			if (map->location[line][column] == 49)
-				mlx_put_image_to_window(game->mlx, game->window, images->wall,
-										(column * PIXEL_SIZE), (line * PIXEL_SIZE));
-			if (map->location[line][column] == 80)
-			{
-				mlx_put_image_to_window(game->mlx, game->window, images->player,
-										(column * PIXEL_SIZE), (line * PIXEL_SIZE));
-				player->x = column;
-				player->y = line;
-				printf("Player: %d %d\n", player->x, player->y);
-			}
-			if (map->location[line][column] == 67)
-				mlx_put_image_to_window(game->mlx, game->window, images->collectible,
-										(column * PIXEL_SIZE), (line * PIXEL_SIZE));
-			if (map->location[line][column] == 69)
-				mlx_put_image_to_window(game->mlx, game->window, images->exit,
-										(column * PIXEL_SIZE), (line * PIXEL_SIZE));
-			column++;
-		}
-		line++;
-	}
-	return (0);
-}
-
-int	loadMap(t_map *map, char **args)
-{
-	int		column;
-	int		line;
-	int		fd;
-	char	*temp;
-
-	map->location[0] = (int *)malloc(sizeof(int *) * 10);
-	map->location[1] = (int *)malloc(sizeof(int *) * 10);
-	map->location[2] = (int *)malloc(sizeof(int *) * 10);
-	map->location[3] = (int *)malloc(sizeof(int *) * 10);
-	map->location[4] = (int *)malloc(sizeof(int *) * 10);
-	map->location[5] = NULL;
-	fd = open(args[1], O_RDONLY);
-	temp = get_next_line(fd);
-	if (temp == NULL)
-		return (1);
-	line = 0;
-	while (temp != NULL && line < 5)
+		game->player->x = oldX;
+		game->player->y = oldY;
+	} else
 	{
-		column = 0;
-		while(column < 14)
-		{
-			if (temp[column] != '\n')
-				map->location[line][column] = temp[column];
-			column++;
-		}
-		temp = get_next_line(fd);
-		if (temp == NULL)
-			return (0);
-		line++;
+		game->map->location[oldY][oldX] = '0';
+		game->map->location[game->player->y][game->player->x] = 'P';
 	}
-	return (0);
-}
+	mlx_clear_window(game->mlx, game->window);
+	buildMap(game);
 
-int buildWindow(t_game *game)
-{
-	game->width = 416;
-	game->height = 160;
-
-	game->window = mlx_new_window(game->mlx, game->width, game->height, "so_long");
-	if (!game->window)
-		return (1);
-	return (0);
-}
-
-int	key_event(int key)
-{
-	printf("key pressed %d\n", key);
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_game		game;
-	t_map		map;
-	t_images	images;
-	t_player	player;
+	t_game		*game;
 	int			error;
 
-
-	game.player = &player;
-	player.x = *(int *)malloc(sizeof(int));
-	player.y = *(int *)malloc(sizeof(int));
-	map.location = malloc(sizeof(int *) * 50);
-	if (argc != 2)
-	{
-		printf("error to read argument of map\n");
-		return (1);
-	}
-	game.mlx = mlx_init();
-	if (game.mlx == NULL) {
-		printf("Error: mlx_init() returned NULL\n");
-	}
-	error = loadMap(&map, argv);
+	game = malloc(sizeof(t_game));
+	game->map = malloc(sizeof(t_map));
+	game->images = malloc(sizeof(t_images));
+	game->player = malloc(sizeof(t_player));
+	error = buildWindow(game);
 	if (error == 1)
-	{
-		printf("Error: failed to loadMap\n");
 		return (1);
-	}
-	buildWindow(&game);
-	loadImage(&images, &game);
-	readMap(&map);
-	buildMap(&map, &game, &images, &player);
-	mlx_key_hook(game.window, key_event, &game);
-	mlx_hook(game.window, 17, 0, exit_game, &game);
-	mlx_hook(game.window, 2, 1L<<0, keyPressed, &player);
-	mlx_loop(game.mlx);
+	printf("width: %d\n", game->width);
+	printf("height: %d\n", game->height);
+	printf("window: %p\n", game->window);
+	loadMap(argc, argv, game);
+	loadImages(game);
+	buildMap(game);
+//	readMap(game->map);
+
+	// key press events
+	printf("player x: %d\n", game->player->x);
+	printf("player y: %d\n", game->player->y);
+	mlx_hook(game->window, 2, 1L<<0, keyPress, game);
+	mlx_loop(game->mlx);
 	return (0);
 }
