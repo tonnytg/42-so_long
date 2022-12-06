@@ -86,3 +86,41 @@ char	*ft_char_append(char *s1, char c)
 	free(s1);
 	return (m);
 }
+
+int	ft_len_digits(unsigned int n)
+{
+	if (n < 10)
+		return (1);
+	return (ft_len_digits(n / 10) + 1);
+}
+
+int	is_negative(int n)
+{
+	return (n < 0);
+}
+
+char	*ft_itoa(int n)
+{
+	char			*str;
+	int				len;
+	int				negative;
+	unsigned int	nb;
+
+	nb = n;
+	negative = is_negative(n);
+	if (negative)
+		nb = n * (-1);
+	len = ft_len_digits(nb) + negative;
+	str = malloc(len + 1);
+	if (!str)
+		return (NULL);
+	str[len] = '\0';
+	while (len--)
+	{
+		str[len] = (nb % 10) + '0';
+		nb /= 10;
+	}
+	if (negative)
+		str[0] = '-';
+	return (str);
+}

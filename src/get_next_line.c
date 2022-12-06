@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-char	*ft_check_cache(char *cache, char *line, int fd, int *x)
+static char	*ft_check_cache(char *cache, char *line, int fd, int *x)
 {
 	cache = ft_read_buff(fd);
 	*x = 0;
@@ -22,7 +22,7 @@ char	*ft_check_cache(char *cache, char *line, int fd, int *x)
 	return (cache);
 }
 
-char	*run_loop(char *cache, char *line, int *x, int *trigger)
+static char	*run_loop(char *cache, char *line, int *x, int *trigger)
 {
 	int	length;
 
@@ -41,7 +41,7 @@ char	*run_loop(char *cache, char *line, int *x, int *trigger)
 	return (line);
 }
 
-char	*build_line(int fd)
+static char	*build_line(int fd)
 {
 	static char	*cache;
 	char		*line;

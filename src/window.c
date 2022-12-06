@@ -11,31 +11,24 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdlib.h>
 
-void perror(const char *s);
-
-int	main(int argc, char **argv)
+int	destroy_window(t_game *game)
 {
-	t_game		*game;
-	int			error;
+	printf("destroy window %p\n", game->window);
+	mlx_destroy_window(game->mlx, game->window);
+	exit(0);
+}
 
-	game = malloc(sizeof(t_game));
-	game->map = malloc(sizeof(t_map));
-	game->images = malloc(sizeof(t_images));
-	game->player = malloc(sizeof(t_player));
-	error = build_window(game);
-	if (error == 1)
-		perror("Erro ao abrir arquivo.txt");
-	printf("width: %d\n", game->width);
-	printf("height: %d\n", game->height);
-	printf("window: %p\n", game->window);
-	load_map(argc, argv, game);
-	load_images(game);
-	build_map(game);
-//	readMap(game->map);
-	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
-	mlx_hook(game->window, 2, 1L << 0, key_press, game);
-	mlx_loop(game->mlx);
+int	build_window(t_game *game)
+{
+	game->width = 416;
+	game->height = 160;
+	game->mlx = mlx_init();
+	game->window = mlx_new_window(game->mlx, game->width,
+								  game->height, "so_long");
+	if (!game->window
+		|| !game->mlx)
+		return (1);
 	return (0);
 }
+

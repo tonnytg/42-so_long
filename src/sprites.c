@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   map.c	                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,32 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
-#include <stdlib.h>
+# include "so_long.h"
 
-void perror(const char *s);
-
-int	main(int argc, char **argv)
+int	load_images(t_game *game)
 {
-	t_game		*game;
-	int			error;
-
-	game = malloc(sizeof(t_game));
-	game->map = malloc(sizeof(t_map));
-	game->images = malloc(sizeof(t_images));
-	game->player = malloc(sizeof(t_player));
-	error = build_window(game);
-	if (error == 1)
-		perror("Erro ao abrir arquivo.txt");
-	printf("width: %d\n", game->width);
-	printf("height: %d\n", game->height);
-	printf("window: %p\n", game->window);
-	load_map(argc, argv, game);
-	load_images(game);
-	build_map(game);
-//	readMap(game->map);
-	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
-	mlx_hook(game->window, 2, 1L << 0, key_press, game);
-	mlx_loop(game->mlx);
+	game->images->wall = mlx_xpm_file_to_image(game->mlx, "src/images/wall.xpm",
+											   &game->images->x, &game->images->y);
+	game->images->collectible = mlx_xpm_file_to_image(game->mlx,
+													  "src/images/collectible.xpm", &game->images->x, &game->images->y);
+	game->images->exit = mlx_xpm_file_to_image(game->mlx,
+											   "src/images/exit.xpm",
+											   &game->images->x, &game->images->y);
+	game->images->player = mlx_xpm_file_to_image(game->mlx,
+												 "src/images/player.xpm",
+												 &game->images->x, &game->images->y);
+	if (!game->images->wall
+		|| !game->images->collectible
+		|| !game->images->exit
+		|| !game->images->player)
+		return (1);
 	return (0);
 }

@@ -1,9 +1,10 @@
 SRC = ./src
+FILES = $(SRC)/*.c
 CC_FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c99 -g3
 
 all:
 	make -C $(SRC)/minilibx
-	clang $(CC_FLAGS) $(SRC)/main.c $(SRC)/get_next_line.c $(SRC)/utils.c -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o main
+	clang $(CC_FLAGS) $(FILES) -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o main
 
 clean:
 	rm -f main
