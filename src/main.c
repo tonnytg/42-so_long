@@ -13,8 +13,6 @@
 #include "so_long.h"
 #include <stdlib.h>
 
-void perror(const char *s);
-
 int	main(int argc, char **argv)
 {
 	t_game		*game;
@@ -24,18 +22,10 @@ int	main(int argc, char **argv)
 	game->map = malloc(sizeof(t_map));
 	game->images = malloc(sizeof(t_images));
 	game->player = malloc(sizeof(t_player));
-	error = build_window(game);
-	if (error == 1)
-		perror("Error to load window");
-	printf("width: %d\n", game->width);
-	printf("height: %d\n", game->height);
-	printf("window: %p\n", game->window);
+	build_window(game);
 	error = load_map(argc, argv, game);
 	if (error == 1)
-	{
-		perror("Error to load map");
 		return (1);
-	}
 	load_images(game);
 	build_map(game);
 	read_map(game->map);
