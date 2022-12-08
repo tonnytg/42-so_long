@@ -12,6 +12,31 @@
 
 #include "so_long.h"
 
+static void	ft_check_key(t_game *game, int oldX, int oldY)
+{
+	if ((game->map->location[game->player->y][game->player->x] == '1') ||
+		(game->map->location[game->player->y][game->player->x] == 'E' &&
+		 game->player->collected != 1))
+	{
+		game->player->x = oldX;
+		game->player->y = oldY;
+	}
+	else
+	{
+		if (game->map->location[game->player->y][game->player->x] == 'C')
+			game->player->collected++;
+		if (game->map->location[game->player->y][game->player->x] == 'E')
+		{
+			if (game->player->collected == 1)
+				destroy_window(game);
+		}
+		game->map->location[oldY][oldX] = '0';
+		game->map->location[game->player->y][game->player->x] = 'P';
+		game->player->moved++;
+		read_map(game->map);
+	}
+}
+
 int	key_press(int keycode, t_game *game)
 {
 	int	oldX;
@@ -29,31 +54,7 @@ int	key_press(int keycode, t_game *game)
 		game->player->x--;
 	if (keycode == RIGHT)
 		game->player->x++;
-	if ((game->map->location[game->player->y][game->player->x] == '1') ||
-		(game->map->location[game->player->y][game->player->x] == 'E' &&
-		 game->player->collected != 1))
-	{
-		game->player->x = oldX;
-		game->player->y = oldY;
-	}
-	else
-	{
-		if (game->map->location[game->player->y][game->player->x] == 'C')
-			game->player->collected++;
-		if (game->map->location[game->player->y][game->player->x] == 'E')
-		{
-			if (game->player->collected == 1)
-			{
-				printf("\n\n\nYou win!\n");
-				printf("With %d moves\n\n\n", game->player->moved);
-				destroy_window(game);
-			}
-		}
-		game->map->location[oldY][oldX] = '0';
-		game->map->location[game->player->y][game->player->x] = 'P';
-		game->player->moved++;
-		read_map(game->map);
-	}
+	ft_check_key(game, oldX, oldY);
 	mlx_clear_window(game->mlx, game->window);
 	build_map(game);
 	return (0);
