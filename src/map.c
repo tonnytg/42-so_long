@@ -106,6 +106,7 @@ int	load_map(int argc, char **argv, t_game *game)
 				game->map->location[line][column] = tempContent[column];
 			column++;
 		}
+		free(tempContent);
 		tempContent = get_next_line(game->map->fd);
 		if (tempContent == NULL)
 			return (0);
@@ -119,5 +120,6 @@ int build_display_movement(t_game *game)
 	char *str;
 	str = ft_itoa(game->player->moved);
 	mlx_string_put(game->mlx,game->window,10,15,0xFF99FF,str);
+	free(str);
 	return (0);
 }
