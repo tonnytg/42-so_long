@@ -26,14 +26,19 @@ int	main(int argc, char **argv)
 	game->player = malloc(sizeof(t_player));
 	error = build_window(game);
 	if (error == 1)
-		perror("Erro ao abrir arquivo.txt");
+		perror("Error to load window");
 	printf("width: %d\n", game->width);
 	printf("height: %d\n", game->height);
 	printf("window: %p\n", game->window);
-	load_map(argc, argv, game);
+	error = load_map(argc, argv, game);
+	if (error == 1)
+	{
+		perror("Error to load map");
+		return (1);
+	}
 	load_images(game);
 	build_map(game);
-//	readMap(game->map);
+	read_map(game->map);
 	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
 	mlx_hook(game->window, 2, 1L << 0, key_press, game);
 	mlx_loop(game->mlx);

@@ -76,6 +76,7 @@ int	read_map(t_map *map)
 	return (0);
 }
 
+// TODO: Segment fault when trying to read the map without argv[1]
 int	load_map(int argc, char **argv, t_game *game)
 {
 	int		column;

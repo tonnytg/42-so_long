@@ -52,6 +52,7 @@ int	key_press(int keycode, t_game *game)
 		game->map->location[oldY][oldX] = '0';
 		game->map->location[game->player->y][game->player->x] = 'P';
 		game->player->moved++;
+		read_map(game->map);
 	}
 	mlx_clear_window(game->mlx, game->window);
 	build_map(game);
