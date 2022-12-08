@@ -12,6 +12,13 @@
 
 #include "so_long.h"
 
+void	put_player(t_game *game, int x, int y)
+{
+	put_image(game, game->images->player, x, y);
+	game->player->x = x;
+	game->player->y = y;
+}
+
 int	build_map(t_game *game)
 {
 	int	column;
@@ -24,29 +31,13 @@ int	build_map(t_game *game)
 		while (column < 14)
 		{
 			if (game->map->location[line][column] == '1')
-				mlx_put_image_to_window(game->mlx,
-										game->window, game->images->wall,
-										column * PIXEL_SIZE, line * PIXEL_SIZE);
+				put_image(game, game->images->wall, column, line);
 			if (game->map->location[line][column] == 'C')
-				mlx_put_image_to_window(game->mlx, game->window,
-										game->images->collectible,
-										column * PIXEL_SIZE, line * PIXEL_SIZE);
+				put_image(game, game->images->collectible, column, line);
 			if (game->map->location[line][column] == 'E')
-				mlx_put_image_to_window(game->mlx, game->window,
-										game->images->exit,
-										column * PIXEL_SIZE, line * PIXEL_SIZE);
+				put_image(game, game->images->exit, column, line);
 			if (game->map->location[line][column] == 'P')
-			{
-				mlx_put_image_to_window(game->mlx, game->window,
-										game->images->player,
-										column * PIXEL_SIZE, line * PIXEL_SIZE);
-				game->player->x = column;
-				game->player->y = line;
-				printf("--\nPlayer position: %d, %d\n", game->player->x,
-					   game->player->y);
-				printf("Player moved: %d\n", game->player->moved);
-				printf("player collected: %d\n", game->player->collected);
-			}
+				put_player(game, column, line);
 			column++;
 		}
 		line++;
@@ -55,44 +46,24 @@ int	build_map(t_game *game)
 	return (0);
 }
 
-int	read_map(t_map *map)
+static void	ft_init_map(t_game *game, char **argv)
 {
-	int	column;
-	int	line;
-
-	column = 0;
-	line = 0;
-	while (line < 5)
-	{
-		while (column < 14)
-		{
-			printf("(%d)", map->location[line][column]);
-			column++;
-		}
-		printf("\n");
-		column = 0;
-		line++;
-	}
-	return (0);
-}
-
-// TODO: Segment fault when trying to read the map without argv[1]
-int	load_map(int argc, char **argv, t_game *game)
-{
-	int		column;
-	int		line;
-	char	*tempContent;
-
-	if (argc != 2)
-		return (1);
-	printf("Loading map...\n");
+	game->map->fd = open(argv[1], O_RDONLY);
 	game->map->location = malloc(sizeof(int *) * 5);
 	game->map->location[0] = malloc(sizeof(int) * 15);
 	game->map->location[1] = malloc(sizeof(int) * 15);
 	game->map->location[2] = malloc(sizeof(int) * 15);
 	game->map->location[3] = malloc(sizeof(int) * 15);
 	game->map->location[4] = malloc(sizeof(int) * 15);
-	game->map->fd = open(argv[1], O_RDONLY);
+}
+
+int	load_map(int argc, char **argv, t_game *game)
+{
+	int		column;
+	int		line;
+	char	*tempContent;
+
+	ft_init_map(game, argv);
 	tempContent = get_next_line(game->map->fd);
 	if (tempContent == NULL)
 		return (1);
@@ -115,11 +86,12 @@ int	load_map(int argc, char **argv, t_game *game)
 	return (0);
 }
 
-int build_display_movement(t_game *game)
+int	build_display_movement(t_game *game)
 {
-	char *str;
+	char	*str;
+
 	str = ft_itoa(game->player->moved);
-	mlx_string_put(game->mlx,game->window,10,15,0xFF99FF,str);
+	mlx_string_put(game->mlx, game->window, 10, 15, 0xFF99FF, str);
 	free(str);
 	return (0);
 }

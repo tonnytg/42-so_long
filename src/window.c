@@ -25,10 +25,8 @@ int	build_window(t_game *game)
 	game->height = 160;
 	game->mlx = mlx_init();
 	game->window = mlx_new_window(game->mlx, game->width,
-								  game->height, "so_long");
-	if (!game->window
-		|| !game->mlx)
+			game->height, "so_long");
+	if (!game->window || !game->mlx)
 		return (1);
 	return (0);
 }
-
