@@ -57,7 +57,7 @@ static void	ft_init_map(t_game *game, char **argv)
 	game->map->location[4] = malloc(sizeof(int) * 15);
 }
 
-int	load_map(int argc, char **argv, t_game *game)
+int	load_map(char **argv, t_game *game)
 {
 	int		column;
 	int		line;

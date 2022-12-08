@@ -33,7 +33,6 @@ static void	ft_check_key(t_game *game, int oldX, int oldY)
 		game->map->location[oldY][oldX] = '0';
 		game->map->location[game->player->y][game->player->x] = 'P';
 		game->player->moved++;
-		read_map(game->map);
 	}
 }
 

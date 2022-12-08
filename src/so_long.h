@@ -74,8 +74,7 @@ char	*get_next_line(int fd);
 
 int		load_images(t_game *game);
 int		build_map(t_game *game);
-int		read_map(t_map *map);
-int		load_map(int argc, char **argv, t_game *game);
+int		load_map(char **argv, t_game *game);
 int		build_display_movement(t_game *game);
 int		key_press(int keycode, t_game *game);
 int		destroy_window(t_game *game);

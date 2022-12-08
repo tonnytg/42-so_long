@@ -25,12 +25,11 @@ int	main(int argc, char **argv)
 	game->images = malloc(sizeof(t_images));
 	game->player = malloc(sizeof(t_player));
 	build_window(game);
-	error = load_map(argc, argv, game);
+	error = load_map(argv, game);
 	if (error == 1)
 		return (1);
 	load_images(game);
 	build_map(game);
-	read_map(game->map);
 	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
 	mlx_hook(game->window, 2, 1L << 0, key_press, game);
 	mlx_loop(game->mlx);
