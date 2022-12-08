@@ -1,13 +1,16 @@
+NAME = "so_long"
 SRC = ./src
 FILES = $(SRC)/*.c
 CC_FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c99 -g3
 
 all:
 	make -C $(SRC)/minilibx
-	clang $(CC_FLAGS) $(FILES) -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o main
+	clang $(CC_FLAGS) $(FILES) -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o $(NAME)
+
+$(NAME): all
 
 clean:
-	rm -f main
+	rm -f $(NAME)
 
 fclean: clean
 	rm src/minilibx/libmlx_Darwin.a
@@ -19,5 +22,8 @@ fclean: clean
 re:
 	make fclean
 	make all
+
+debug: all
+	leaks --atExit --list -- ./so_long src/maps/map.ber
 
 .PHONY: all clean fclean re
