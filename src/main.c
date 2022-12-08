@@ -18,6 +18,8 @@ int	main(int argc, char **argv)
 	t_game		*game;
 	int			error;
 
+	if (argc < 2)
+		return (1);
 	game = malloc(sizeof(t_game));
 	game->map = malloc(sizeof(t_map));
 	game->images = malloc(sizeof(t_images));
