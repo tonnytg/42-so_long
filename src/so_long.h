@@ -30,7 +30,7 @@
 
 typedef struct s_map
 {
-	int fd;
+	int		fd;
 	int		**location;
 }	t_map;
 
@@ -46,11 +46,11 @@ typedef struct s_images
 
 typedef struct s_player
 {
-	int x;
-	int y;
-	int moved;
-	int collected;
-} t_player;
+	int	x;
+	int	y;
+	int	moved;
+	int	collected;
+}	t_player;
 
 typedef struct s_game
 {
@@ -72,15 +72,14 @@ int		ft_is_negative(int n);
 char	*ft_itoa(int n);
 char	*get_next_line(int fd);
 
-
-int	load_images(t_game *game);
-int	build_map(t_game *game);
-int	read_map(t_map *map);
-int	load_map(int argc, char **argv, t_game *game);
-int build_display_movement(t_game *game);
-int	key_press(int keycode, t_game *game);
-int	destroy_window(t_game *game);
-int	build_window(t_game *game);
-
+int		load_images(t_game *game);
+int		build_map(t_game *game);
+int		read_map(t_map *map);
+int		load_map(int argc, char **argv, t_game *game);
+int		build_display_movement(t_game *game);
+int		key_press(int keycode, t_game *game);
+int		destroy_window(t_game *game);
+int		build_window(t_game *game);
+void	put_image(t_game *game, int *image, int x, int y);
 
 #endif //SO_LONG_H
