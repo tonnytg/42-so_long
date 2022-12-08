@@ -12,16 +12,6 @@
 
 #include "so_long.h"
 
-size_t	ft_strlen(char const *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (!str || str[i] != '\0')
-		i++;
-	return (i);
-}
-
 char	*ft_read_buff(int fd)
 {
 	char	*buff;
@@ -87,18 +77,6 @@ char	*ft_char_append(char *s1, char c)
 	return (m);
 }
 
-int	ft_len_digits(unsigned int n)
-{
-	if (n < 10)
-		return (1);
-	return (ft_len_digits(n / 10) + 1);
-}
-
-int	is_negative(int n)
-{
-	return (n < 0);
-}
-
 char	*ft_itoa(int n)
 {
 	char			*str;
@@ -107,7 +85,7 @@ char	*ft_itoa(int n)
 	unsigned int	nb;
 
 	nb = n;
-	negative = is_negative(n);
+	negative = ft_is_negative(n);
 	if (negative)
 		nb = n * (-1);
 	len = ft_len_digits(nb) + negative;

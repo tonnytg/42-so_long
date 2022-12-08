@@ -22,7 +22,7 @@ static char	*ft_check_cache(char *cache, char *line, int fd, int *x)
 	return (cache);
 }
 
-static char	*run_loop(char *cache, char *line, int *x, int *trigger)
+static char	*ft_run_loop(char *cache, char *line, int *x, int *trigger)
 {
 	int	length;
 
@@ -41,7 +41,7 @@ static char	*run_loop(char *cache, char *line, int *x, int *trigger)
 	return (line);
 }
 
-static char	*build_line(int fd)
+static char	*ft_build_line(int fd)
 {
 	static char	*cache;
 	char		*line;
@@ -58,7 +58,7 @@ static char	*build_line(int fd)
 		}
 		if (!cache)
 			return (line);
-		line = run_loop(cache, line, &x, &trigger);
+		line = ft_run_loop(cache, line, &x, &trigger);
 		if (trigger == 1)
 			break ;
 		free(cache);
@@ -73,7 +73,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = build_line(fd);
+	line = ft_build_line(fd);
 	if (line[0] == '\0')
 	{
 		free(line);

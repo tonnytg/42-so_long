@@ -63,28 +63,24 @@ typedef struct s_game
 	struct s_player	*player;
 }	t_game;
 
-char	*get_next_line(int fd);
 size_t	ft_strlen(char const *str);
-char	*ft_char_append(char *s1, char c);
 char	*ft_read_buff(int fd);
 char	*ft_strdup(char *str);
+char	*ft_char_append(char *s1, char c);
+int		ft_len_digits(unsigned int n);
+int		ft_is_negative(int n);
 char	*ft_itoa(int n);
-size_t	ft_strlen(char const *str);
-char	*ft_read_buff(int fd);
-char	*ft_strdup(char *str);
-char	*ft_char_append(char *s1, char c);
-int	ft_len_digits(unsigned int n);
-int	is_negative(int n);
+char	*get_next_line(int fd);
+
 
 int	load_images(t_game *game);
-int	destroy_window(t_game *game);
-int	build_window(t_game *game);
 int	build_map(t_game *game);
 int	read_map(t_map *map);
 int	load_map(int argc, char **argv, t_game *game);
 int build_display_movement(t_game *game);
 int	key_press(int keycode, t_game *game);
-
+int	destroy_window(t_game *game);
+int	build_window(t_game *game);
 
 
 #endif //SO_LONG_H
