@@ -26,7 +26,8 @@ int	build_window(t_game *game)
 	if (!game->mlx)
 		return (1);
 	mlx_get_screen_size(game->mlx, &game->screen_width, &game->screen_height);
-	if ((game->width > game->screen_width) || (game->height > game->screen_height))
+	if ((game->width > game->screen_width)
+		|| (game->height > game->screen_height))
 		return (1);
 	game->window = mlx_new_window(game->mlx, game->width,
 			game->height, "so_long");

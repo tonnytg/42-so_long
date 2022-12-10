@@ -13,7 +13,7 @@
 #include "so_long.h"
 #include <stdlib.h>
 
-t_game *init_game(t_game *game)
+t_game	*init_game(t_game *game)
 {
 	game = malloc(sizeof(t_game));
 	game->map = malloc(sizeof(t_map));
@@ -33,13 +33,13 @@ t_game *init_game(t_game *game)
 	return (game);
 }
 
-void load_events(t_game *game)
+void	load_events(t_game *game)
 {
 	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
-	mlx_hook(game->window, 2, 1L << 0, key_press, game);	
+	mlx_hook(game->window, 2, 1L << 0, key_press, game);
 }
 
-void clean_game(t_game *game)
+void	clean_game(t_game *game)
 {
 	free(game->map->location);
 	free(game->map);
@@ -49,34 +49,35 @@ void clean_game(t_game *game)
 	free(game);
 }
 
+int	msg_error(t_game *game, char *msg)
+{
+	clean_game(game);
+	ft_putstr(msg);
+	exit (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game		*game;
 	int			error;
 
 	game = NULL;
-	if (argc != 2)
-		return (1);
 	game = init_game(game);
+	game->mlx = malloc(sizeof(int *));
+	if (argc != 2)
+		msg_error(game, "error, invalid argument\n");
 	error = read_map_file(game, argv);
 	if (error == 1)
-	{
-		game->mlx = malloc(sizeof(int *));
-		clean_game(game);
-		return (1);
-	}
+		msg_error(game, "error, problem to read map file\n");
 	error = build_window(game);
 	if (error == 1)
-	{
-		clean_game(game);
-		return (1);
-	}
+		msg_error(game, "error, to build window size\n");
 	load_map(argv, game);
 	load_images(game);
 	if (game->map->location[0][0] == '1')
 		build_map(game);
 	else
-		return (1);
+		msg_error(game, "error, invalid map\n");
 	load_events(game);
 	mlx_loop(game->mlx);
 	return (0);

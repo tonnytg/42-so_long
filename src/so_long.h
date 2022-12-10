@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
 #include <string.h>
 
 typedef struct s_map
@@ -79,6 +80,7 @@ int		ft_len_digits(unsigned int n);
 int		ft_is_negative(int n);
 char	*ft_itoa(int n);
 char	*get_next_line(int fd);
+int		ft_putstr(char *str);
 
 int		load_images(t_game *game);
 int		build_map(t_game *game);
@@ -91,5 +93,6 @@ void	put_image(t_game *game, int *image, int x, int y);
 int		read_map_file(t_game *game, char **argv);
 int		check_rules(t_game *game);
 void	clean_game(t_game *game);
+int		msg_error(t_game *game, char *msg);
 
 #endif //SO_LONG_H

@@ -54,7 +54,7 @@ static void	ft_init_map(t_game *game, char **argv)
 	game->map->fd = open(argv[1], O_RDONLY);
 	game->map->location = malloc(sizeof(int *) * game->map->count_lines);
 	x = 0;
-	while ( x < game->map->count_lines)
+	while (x < game->map->count_lines)
 	{
 		game->map->location[x] = malloc(sizeof(int) * game->map->count_columns);
 		x++;

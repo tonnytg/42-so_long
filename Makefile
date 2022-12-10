@@ -2,35 +2,21 @@ NAME = "so_long"
 SRC = ./src
 FILES = $(SRC)/*.c
 CC_FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c99 -g3
+LIB_FLAGS = -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx
 
-all:
-	make -C $(SRC)/minilibx
-	clang $(CC_FLAGS) $(FILES) -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o $(NAME)
+all: $(NAME)
 
-$(NAME): all
+$(NAME):
+	@make -C $(SRC)/minilibx
+	@clang $(CC_FLAGS) $(FILES) $(LIB_FLAGS) -o $(NAME)
 
 clean:
 	rm -f $(NAME)
+	@make -C $(SRC)/minilibx clean
 
 fclean: clean
-	rm src/minilibx/libmlx_Darwin.a
-	rm src/minilibx/libmlx.a
-	rm src/minilibx/test/main.o
-	rm src/minilibx/test/mlx-test
-	rm -rf src/minilibx/obj/
+	@make -C $(SRC)/minilibx fclean
 
-re:
-	make fclean
-	make all
-
-debug: all
-	leaks --atExit --list -- ./so_long src/maps/map.ber
-	leaks --atExit --list -- ./so_long src/maps/1.ber
-	leaks --atExit --list -- ./so_long src/maps/2.ber
-	leaks --atExit --list -- ./so_long src/maps/3.ber
-	leaks --atExit --list -- ./so_long src/maps/4.ber
-	leaks --atExit --list -- ./so_long src/maps/5.ber
-	leaks --atExit --list -- ./so_long src/maps/6.ber
-	leaks --atExit --list -- ./so_long src/maps/7.ber
+re: fclean all
 
 .PHONY: all clean fclean re

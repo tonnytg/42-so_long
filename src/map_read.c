@@ -2,13 +2,13 @@
 
 int	check_rules(t_game *game)
 {
-	if (game->map->count_columns == game->map->count_lines ||
-		game->map->count_columns < 2 ||
-		game->map->count_lines < 2)
+	if (game->map->count_columns == game->map->count_lines
+		|| game->map->count_columns < 2
+		|| game->map->count_lines < 2)
 		return (1);
-	if (game->map->count_collectibles == 0 ||
-		game->map->count_exits != 1 ||
-		game->map->count_player != 1)
+	if (game->map->count_collectibles == 0
+		|| game->map->count_exits != 1
+		|| game->map->count_player != 1)
 		return (1);
 	return (0);
 }
