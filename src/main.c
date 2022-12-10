@@ -21,6 +21,7 @@ t_game *init_game(t_game *game)
 	game->map->location = NULL;
 	game->map->count_lines = 0;
 	game->map->count_columns = 0;
+	game->map->count_collectibles = 0;
 	game->images = malloc(sizeof(t_images));
 	game->player = malloc(sizeof(t_player));
 	game->player->x = 0;
