@@ -25,5 +25,12 @@ re:
 
 debug: all
 	leaks --atExit --list -- ./so_long src/maps/map.ber
+	leaks --atExit --list -- ./so_long src/maps/1.ber
+	leaks --atExit --list -- ./so_long src/maps/2.ber
+	leaks --atExit --list -- ./so_long src/maps/3.ber
+	leaks --atExit --list -- ./so_long src/maps/4.ber
+	leaks --atExit --list -- ./so_long src/maps/5.ber
+	leaks --atExit --list -- ./so_long src/maps/6.ber
+	leaks --atExit --list -- ./so_long src/maps/7.ber
 
 .PHONY: all clean fclean re

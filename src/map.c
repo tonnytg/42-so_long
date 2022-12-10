@@ -25,10 +25,10 @@ int	build_map(t_game *game)
 	int	line;
 
 	line = 0;
-	while (line < 5)
+	while (line < game->map->count_lines)
 	{
 		column = 0;
-		while (column < 14)
+		while (column < game->map->count_columns)
 		{
 			if (game->map->location[line][column] == '1')
 				put_image(game, game->images->wall, column, line);
@@ -52,17 +52,18 @@ static void	ft_init_map(t_game *game, char **argv)
 	int	y;
 
 	game->map->fd = open(argv[1], O_RDONLY);
-	game->map->location = malloc(sizeof(int *) * 5);
-	game->map->location[0] = malloc(sizeof(int) * 15);
-	game->map->location[1] = malloc(sizeof(int) * 15);
-	game->map->location[2] = malloc(sizeof(int) * 15);
-	game->map->location[3] = malloc(sizeof(int) * 15);
-	game->map->location[4] = malloc(sizeof(int) * 15);
+	game->map->location = malloc(sizeof(int *) * game->map->count_lines);
 	x = 0;
-	while (x < 5)
+	while ( x < game->map->count_lines)
+	{
+		game->map->location[x] = malloc(sizeof(int) * game->map->count_columns);
+		x++;
+	}
+	x = 0;
+	while (x < game->map->count_lines)
 	{
 		y = 0;
-		while (y < 15)
+		while (y < game->map->count_columns)
 		{
 			game->map->location[x][y] = 0;
 			y++;
@@ -82,10 +83,10 @@ int	load_map(char **argv, t_game *game)
 	if (tempContent == NULL)
 		return (1);
 	line = 0;
-	while (line < 5)
+	while (line <= game->map->count_lines)
 	{
 		column = 0;
-		while (column < 14)
+		while (column <= game->map->count_columns)
 		{
 			if (tempContent[column] != '\n')
 				game->map->location[line][column] = tempContent[column];

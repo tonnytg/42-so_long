@@ -14,16 +14,17 @@
 
 int	destroy_window(t_game *game)
 {
-	printf("destroy window %p\n", game->window);
 	mlx_destroy_window(game->mlx, game->window);
 	exit(0);
 }
 
 int	build_window(t_game *game)
 {
-	game->width = 416;
-	game->height = 160;
+	game->width = PIXEL_SIZE * game->map->count_columns;
+	game->height = PIXEL_SIZE * game->map->count_lines;
 	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (1);
 	game->window = mlx_new_window(game->mlx, game->width,
 			game->height, "so_long");
 	if (!game->window || !game->mlx)

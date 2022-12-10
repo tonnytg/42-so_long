@@ -21,17 +21,20 @@
 # define BUFFER_SIZE 42
 # define PIXEL_SIZE 32
 
-# include <mlx.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
+#include <mlx.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 typedef struct s_map
 {
 	int		fd;
 	int		**location;
+	int		count_lines;
+	int		count_columns;
+	int		count_collectibles;
 }	t_map;
 
 typedef struct s_images
@@ -58,6 +61,7 @@ typedef struct s_game
 	void			*window;
 	int				width;
 	int				height;
+	int				c_collectible;
 	struct s_images	*images;
 	struct s_map	*map;
 	struct s_player	*player;
@@ -80,5 +84,6 @@ int		key_press(int keycode, t_game *game);
 int		destroy_window(t_game *game);
 int		build_window(t_game *game);
 void	put_image(t_game *game, int *image, int x, int y);
+int		read_map_file(t_game *game, char **argv);
 
 #endif //SO_LONG_H

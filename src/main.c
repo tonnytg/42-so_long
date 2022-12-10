@@ -19,6 +19,8 @@ t_game *init_game(t_game *game)
 	game->map = malloc(sizeof(t_map));
 	game->map->fd = 0;
 	game->map->location = NULL;
+	game->map->count_lines = 0;
+	game->map->count_columns = 0;
 	game->images = malloc(sizeof(t_images));
 	game->player = malloc(sizeof(t_player));
 	game->player->x = 0;
@@ -37,16 +39,14 @@ void load_events(t_game *game)
 int	main(int argc, char **argv)
 {
 	t_game		*game;
-	int			error;
 
 	game = NULL;
-	if (argc < 2)
+	if (argc != 2)
 		return (1);
 	game = init_game(game);
+	read_map_file(game, argv);
 	build_window(game);
-	error = load_map(argv, game);
-	if (error == 1)
-		return (1);
+	load_map(argv, game);
 	load_images(game);
 	if (game->map->location[0][0] == '1')
 		build_map(game);

@@ -16,7 +16,7 @@ static void	ft_check_key(t_game *game, int oldX, int oldY)
 {
 	if ((game->map->location[game->player->y][game->player->x] == '1') ||
 		(game->map->location[game->player->y][game->player->x] == 'E' &&
-		 game->player->collected != 1))
+		 game->player->collected != game->map->count_collectibles))
 	{
 		game->player->x = oldX;
 		game->player->y = oldY;
@@ -27,7 +27,7 @@ static void	ft_check_key(t_game *game, int oldX, int oldY)
 			game->player->collected++;
 		if (game->map->location[game->player->y][game->player->x] == 'E')
 		{
-			if (game->player->collected == 1)
+			if (game->player->collected == game->map->count_collectibles)
 				destroy_window(game);
 		}
 		game->map->location[oldY][oldX] = '0';
