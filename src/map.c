@@ -48,6 +48,9 @@ int	build_map(t_game *game)
 
 static void	ft_init_map(t_game *game, char **argv)
 {
+	int	x;
+	int	y;
+
 	game->map->fd = open(argv[1], O_RDONLY);
 	game->map->location = malloc(sizeof(int *) * 5);
 	game->map->location[0] = malloc(sizeof(int) * 15);
@@ -55,6 +58,17 @@ static void	ft_init_map(t_game *game, char **argv)
 	game->map->location[2] = malloc(sizeof(int) * 15);
 	game->map->location[3] = malloc(sizeof(int) * 15);
 	game->map->location[4] = malloc(sizeof(int) * 15);
+	x = 0;
+	while (x < 5)
+	{
+		y = 0;
+		while (y < 15)
+		{
+			game->map->location[x][y] = 0;
+			y++;
+		}
+		x++;
+	}
 }
 
 int	load_map(char **argv, t_game *game)
@@ -90,7 +104,13 @@ int	build_display_movement(t_game *game)
 {
 	char	*str;
 
+	str = NULL;
 	str = ft_itoa(game->player->moved);
+	if (!str)
+	{
+		free(str);
+		return (1);
+	}
 	mlx_string_put(game->mlx, game->window, 10, 15, 0xFF99FF, str);
 	free(str);
 	return (0);
