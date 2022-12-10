@@ -61,6 +61,8 @@ typedef struct s_game
 	void			*window;
 	int				width;
 	int				height;
+	int 			screen_width;
+	int 			screen_height;
 	int				c_collectible;
 	struct s_images	*images;
 	struct s_map	*map;
