@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/10 07:44:49 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/10 15:41:59 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ void load_events(t_game *game)
 int	main(int argc, char **argv)
 {
 	t_game		*game;
+	int			error;
 
 	game = NULL;
 	if (argc != 2)
 		return (1);
 	game = init_game(game);
-	read_map_file(game, argv);
+	error = read_map_file(game, argv);
+	if (error == 1)
+		return (1);
 	build_window(game);
 	load_map(argv, game);
 	load_images(game);
