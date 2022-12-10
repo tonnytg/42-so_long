@@ -27,6 +27,11 @@ t_game *init_game(t_game *game)
 	return (game);
 }
 
+void load_events(t_game *game)
+{
+	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
+	mlx_hook(game->window, 2, 1L << 0, key_press, game);	
+}
 
 int	main(int argc, char **argv)
 {
@@ -46,8 +51,7 @@ int	main(int argc, char **argv)
 		build_map(game);
 	else
 		return (1);
-	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
-	mlx_hook(game->window, 2, 1L << 0, key_press, game);
+	load_events(game);
 	mlx_loop(game->mlx);
 	return (0);
 }
