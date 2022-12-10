@@ -76,25 +76,25 @@ int	load_map(char **argv, t_game *game)
 {
 	int		column;
 	int		line;
-	char	*tempContent;
+	char	*temp_content;
 
 	ft_init_map(game, argv);
-	tempContent = get_next_line(game->map->fd);
-	if (tempContent == NULL)
+	temp_content = get_next_line(game->map->fd);
+	if (temp_content == NULL)
 		return (1);
 	line = 0;
-	while (line <= game->map->count_lines)
+	while (line < game->map->count_lines)
 	{
 		column = 0;
-		while (column <= game->map->count_columns)
+		while (column < game->map->count_columns)
 		{
-			if (tempContent[column] != '\n')
-				game->map->location[line][column] = tempContent[column];
+			if (temp_content[column] != '\n')
+				game->map->location[line][column] = temp_content[column];
 			column++;
 		}
-		free(tempContent);
-		tempContent = get_next_line(game->map->fd);
-		if (tempContent == NULL)
+		free(temp_content);
+		temp_content = get_next_line(game->map->fd);
+		if (temp_content == NULL)
 			return (0);
 		line++;
 	}
