@@ -1,8 +1,11 @@
 #include "so_long.h"
 
-int map_rules()
+int map_rules(t_game *game, char *line, int x)
 {
-
+	if (line[x] == 'C')
+		game->map->count_collectibles++;
+	if (x > game->map->count_columns)
+		game->map->count_columns = x;
 	return (0);
 }
 
@@ -23,12 +26,7 @@ int	read_map_file(t_game *game, char **argv)
 		x = 0;
 		game->map->count_lines++;
 		while (line[x++] != '\0')
-		{
-			if (line[x] == 'C')
-				game->map->count_collectibles++;
-			if (x > game->map->count_columns)
-				game->map->count_columns = x;
-		}
+			map_rules(game, line, x);
 		free(line);
 		line = get_next_line(game->map->fd);
 	}
