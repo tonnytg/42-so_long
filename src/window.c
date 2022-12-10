@@ -22,10 +22,10 @@ int	build_window(t_game *game)
 {
 	game->width = PIXEL_SIZE * game->map->count_columns;
 	game->height = PIXEL_SIZE * game->map->count_lines;
-	mlx_get_screen_size(game->mlx, &game->screen_width, &game->screen_height);
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (1);
+	mlx_get_screen_size(game->mlx, &game->screen_width, &game->screen_height);
 	game->window = mlx_new_window(game->mlx, game->width,
 			game->height, "so_long");
 	if (!game->window || !game->mlx)
