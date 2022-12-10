@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/10 18:19:06 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:47:44 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void clean_game(t_game *game)
 	free(game->map);
 	free(game->images);
 	free(game->player);
+	free(game->mlx);
 	free(game);
 }
 
@@ -58,6 +59,7 @@ int	main(int argc, char **argv)
 	error = read_map_file(game, argv);
 	if (error == 1)
 	{
+		game->mlx = malloc(sizeof(int *));
 		clean_game(game);
 		return (1);
 	}
