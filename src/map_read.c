@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_read.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
+/*   Updated: 2022/12/10 20:41:43 by antthoma         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 int	check_rules(t_game *game)
 {
-	if (game->map->count_columns == game->map->count_lines
+	if ((game->map->count_columns == game->map->count_lines)
 		|| game->map->count_columns < 2
 		|| game->map->count_lines < 2)
 		return (1);
@@ -42,8 +54,11 @@ int	read_map_file(t_game *game, char **argv)
 	{
 		x = 0;
 		game->map->count_lines++;
-		while (line[x++] != '\0')
+		while (line[x] != '\0')
+		{
 			map_count_itens(game, line, x);
+			x++;
+		}
 		free(line);
 		line = get_next_line(game->map->fd);
 	}

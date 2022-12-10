@@ -6,12 +6,11 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/10 18:47:44 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/10 20:32:49 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdlib.h>
 
 t_game	*init_game(t_game *game)
 {
@@ -59,18 +58,20 @@ int	msg_error(t_game *game, char *msg)
 int	main(int argc, char **argv)
 {
 	t_game		*game;
-	int			error;
 
 	game = NULL;
 	game = init_game(game);
-	game->mlx = malloc(sizeof(int *));
 	if (argc != 2)
-		msg_error(game, "error, invalid argument\n");
-	error = read_map_file(game, argv);
-	if (error == 1)
-		msg_error(game, "error, problem to read map file\n");
-	error = build_window(game);
-	if (error == 1)
+	{
+		game->mlx = malloc(sizeof(void *));
+		msg_error(game, "error, no map passed\n");
+	}
+	if (read_map_file(game, argv))
+	{
+		game->mlx = malloc(sizeof(void *));
+		msg_error(game, "error to read map file or invalid content file\n");
+	}
+	if (build_window(game))
 		msg_error(game, "error, to build window size\n");
 	load_map(argv, game);
 	load_images(game);
