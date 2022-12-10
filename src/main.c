@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/08 19:30:47 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/10 07:44:49 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_game *init_game(t_game *game)
 	game->player->x = 0;
 	game->player->y = 0;
 	game->player->moved = 0;
+	game->player->collected = 0;
 	return (game);
 }
 
