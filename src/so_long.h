@@ -35,6 +35,8 @@ typedef struct s_map
 	int		count_lines;
 	int		count_columns;
 	int		count_collectibles;
+	int 	count_exits;
+	int		count_player;
 }	t_map;
 
 typedef struct s_images
