@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/10 18:13:38 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/11 23:57:19 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ int		read_map_file(t_game *game, char **argv);
 int		check_rules(t_game *game);
 void	clean_game(t_game *game);
 int		msg_error(t_game *game, char *msg);
+int		check_format_file(int argc, char **argv);
 
 #endif //SO_LONG_H

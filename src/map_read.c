@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/10 20:41:43 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/12 00:20:50 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,22 @@ static int	map_count_itens(t_game *game, char *line, int x)
 	if (line[x] == 'E')
 		game->map->count_exits++;
 	return (0);
+}
+
+int	check_format_file(int argc, char **argv)
+{
+	int	total;
+
+	if (argc != 2)
+		return (1);
+	total = ft_strlen(argv[1]);
+	if (total != 0)
+		if (argv[1][total - 1] == 'r')
+			if (argv[1][total - 2] == 'e')
+				if (argv[1][total - 3] == 'b')
+					if (argv[1][total - 4] == '.')
+						return (0);
+	return (1);
 }
 
 int	read_map_file(t_game *game, char **argv)

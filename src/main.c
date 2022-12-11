@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/10 20:32:49 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/12 00:15:04 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,24 @@ int	main(int argc, char **argv)
 
 	game = NULL;
 	game = init_game(game);
-	if (argc != 2)
+	if (check_format_file(argc, argv))
 	{
 		game->mlx = malloc(sizeof(void *));
-		msg_error(game, "error, no map passed\n");
+		msg_error(game, "Error\nyou need to pass correct map name_map.ber\n");
 	}
 	if (read_map_file(game, argv))
 	{
 		game->mlx = malloc(sizeof(void *));
-		msg_error(game, "error to read map file or invalid content file\n");
+		msg_error(game, "Error\nproblem to read map\n");
 	}
 	if (build_window(game))
-		msg_error(game, "error, to build window size\n");
+		msg_error(game, "Error\ncannot build window\n");
 	load_map(argv, game);
 	load_images(game);
 	if (game->map->location[0][0] == '1')
 		build_map(game);
 	else
-		msg_error(game, "error, invalid map\n");
+		msg_error(game, "Error\ninvalid map\n");
 	load_events(game);
 	mlx_loop(game->mlx);
 	return (0);
