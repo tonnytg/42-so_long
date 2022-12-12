@@ -1,21 +1,20 @@
 NAME = "so_long"
-SRC = ./src
-FILES = $(SRC)/*.c
+FILES = *.c
 CC_FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c99 -g3
-LIB_FLAGS = -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx
+LIB_FLAGS = -I minilibx -lXext -lX11 -lmlx -L minilibx
 
 all: $(NAME)
 
 $(NAME):
-	@make -C $(SRC)/minilibx
+	@make -C minilibx
 	@clang $(CC_FLAGS) $(FILES) $(LIB_FLAGS) -o $(NAME)
 
 clean:
 	rm -f $(NAME)
-	@make -C $(SRC)/minilibx clean
+	@make -C minilibx clean
 
 fclean: clean
-	@make -C $(SRC)/minilibx fclean
+	@make -C minilibx fclean
 
 re: fclean all
 

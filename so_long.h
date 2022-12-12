@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/11 23:57:19 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/12 00:34:48 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,23 @@
 # define BUFFER_SIZE 42
 # define PIXEL_SIZE 32
 
-#include <mlx.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
+# include <mlx.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <errno.h>
+# include <string.h>
 
 typedef struct s_map
 {
-	int		fd;
-	int		**location;
-	int		count_lines;
-	int		count_columns;
-	int		count_collectibles;
-	int 	count_exits;
-	int		count_player;
+	int	fd;
+	int	**location;
+	int	count_lines;
+	int	count_columns;
+	int	count_collectibles;
+	int	count_exits;
+	int	count_player;
 }	t_map;
 
 typedef struct s_images
@@ -64,8 +64,8 @@ typedef struct s_game
 	void			*window;
 	int				width;
 	int				height;
-	int 			screen_width;
-	int 			screen_height;
+	int				screen_width;
+	int				screen_height;
 	int				c_collectible;
 	struct s_images	*images;
 	struct s_map	*map;
