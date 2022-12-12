@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/12 04:07:34 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/12 04:18:23 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	load_events(t_game *game)
 void	clean_game(t_game *game, int trigger)
 {
 	if (trigger == 1)
+		game->mlx = malloc(sizeof(void *));
+	if (trigger == 2)
 	{
+		mlx_destroy_window(game->mlx, game->window);
 		mlx_destroy_image(game->mlx, game->images->wall);
 		mlx_destroy_image(game->mlx, game->images->player);
 		mlx_destroy_image(game->mlx, game->images->collectible);
@@ -66,24 +69,15 @@ int	main(int argc, char **argv)
 	game = NULL;
 	game = init_game(game);
 	if (check_format_file(argc, argv))
-	{
-		game->mlx = malloc(sizeof(void *));
-		msg_error(game, "Error\nyou need to pass correct map name_map.ber\n", 0);
-	}
+		msg_error(game, "Error\nyou need to pass correct map name_map.ber\n", 1);
 	if (read_map_file(game, argv))
-	{
-		game->mlx = malloc(sizeof(void *));
-		msg_error(game, "Error\nproblem to read map\n", 0);
-	}
+		msg_error(game, "Error\nproblem to read map\n", 1);
 	if (build_window(game))
 		msg_error(game, "Error\ncannot build window\n", 0);
 	load_map(argv, game);
 	load_images(game);
 	if (check_map_walls(game))
-	{
-		mlx_destroy_window(game->mlx, game->window);
-		msg_error(game, "Error\ninvalid map, wrong walls\n", 1);
-	}
+		msg_error(game, "Error\ninvalid map, wrong walls\n", 2);
 	build_map(game);
 	load_events(game);
 	mlx_loop(game->mlx);

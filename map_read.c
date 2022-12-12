@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/12 02:30:00 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/12 04:15:30 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,30 @@ static int	map_count_itens(t_game *game, char *line, int x)
 	return (0);
 }
 
-int check_map_walls(t_game *game)
+int	check_map_walls(t_game *game)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;
 	while (y < game->map->count_lines)
 	{
 		if (y == 0 || y == (game->map->count_lines - 1))
+		{
 			while (x < game->map->count_lines)
 			{
 				if (game->map->location[y][x] != '1')
 					return (1);
 				x++;
-			}
+			}			
+		}
 		else
 			if (game->map->location[y][0] != '1'
 				|| game->map->location[y][game->map->count_columns - 1] != '1')
 				return (1);
-		x = 0;				
+		x = 0;
 		y++;
-		
 	}
 	return (0);
 }
