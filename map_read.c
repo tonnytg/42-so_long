@@ -22,6 +22,9 @@ int	check_rules(t_game *game)
 		|| game->map->count_exits != 1
 		|| game->map->count_player != 1)
 		return (1);
+	if (game->map->count_walls == 0 || game->map->count_wrong_c != 0)
+		return (1);
+
 	return (0);
 }
 
@@ -35,6 +38,11 @@ static int	map_count_itens(t_game *game, char *line, int x)
 		game->map->count_player++;
 	if (line[x] == 'E')
 		game->map->count_exits++;
+	if (line[x] == '1')
+		game->map->count_walls++;
+	else
+		if (line[x] != '\n')
+			game->map->count_wrong_c++;
 	return (0);
 }
 
