@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/12 00:34:48 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/12 04:07:48 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ int		build_window(t_game *game);
 void	put_image(t_game *game, int *image, int x, int y);
 int		read_map_file(t_game *game, char **argv);
 int		check_rules(t_game *game);
-void	clean_game(t_game *game);
-int		msg_error(t_game *game, char *msg);
+void	clean_game(t_game *game, int trigger);
+int		msg_error(t_game *game, char *msg, int trigger);
 int		check_format_file(int argc, char **argv);
+int		check_map_walls(t_game *game);
 
 #endif //SO_LONG_H
