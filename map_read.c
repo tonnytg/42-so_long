@@ -22,7 +22,8 @@ int	check_rules(t_game *game)
 		|| game->map->count_exits != 1
 		|| game->map->count_player != 1)
 		return (1);
-	if (game->map->count_walls == 0 || game->map->count_wrong_c != 0)
+	if (game->map->count_walls == 0
+		|| game->map->count_wrong_c != 0)
 		return (1);
 
 	return (0);
