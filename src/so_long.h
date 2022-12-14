@@ -38,6 +38,7 @@ typedef struct s_map
 	int 	count_exits;
 	int		count_player;
 	int		count_walls;
+	int		count_floors;
 	int		count_wrong_c;
 }	t_map;
 
