@@ -59,14 +59,17 @@ Image Game
 ### Tasks:
 
 - [X] Press ESC must close window
+- [X] Close windows when click in X of window
 - [ ] Resize windows management must remain smooth
+- [ ] Every movement must be displayed in the shell
 - [ ] Every movement must be displayed in the shell
 
 - [X] Use of images of the miniLibX is mandatory
-- 
-- [ ] Movement W, A, S, D
+
 - [X] Movement up, down, left, right
 
-- [ ] Need collect every collectible present
+- [X] Need collect every collectible present
 - [X] Player can't be able to move into walls
-- [ ] If map contains a duplicate character exit/start you should display an error message
+- [X] If map contains a duplicate character exit/start you should display an error message
+- [ ] if map contains broken walls
+- [ ] Algorithm to valid correct path from Player to exit, wall can't block the path
