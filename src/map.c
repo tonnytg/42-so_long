@@ -89,6 +89,10 @@ int	load_map(char **argv, t_game *game)
 		while (column < game->map->count_columns)
 		{
 			if (temp_content[column] != '\n')
+				if (temp_content[column] == 'P') {
+					game->player->y = line;
+					game->player->x = column;
+				}
 				game->map->location[line][column] = temp_content[column];
 			column++;
 		}

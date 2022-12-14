@@ -74,7 +74,28 @@ int	main(int argc, char **argv)
 		clean_game(game);
 		return (1);
 	}
-	load_map(argv, game);
+	error = load_map(argv, game);
+	if (error == 1)
+	{
+		game->mlx = malloc(sizeof(int *));
+		clean_game(game);
+		return (1);
+	}
+	readMap(game->map);
+	error = check_path(game);
+	if (error == 1)
+	{
+		game->mlx = malloc(sizeof(int *));
+		clean_game(game);
+		return (1);
+	}
+	error = load_map(argv, game);
+	if (error == 1)
+	{
+		game->mlx = malloc(sizeof(int *));
+		clean_game(game);
+		return (1);
+	}
 	load_images(game);
 	if (game->map->location[0][0] == '1')
 		build_map(game);
