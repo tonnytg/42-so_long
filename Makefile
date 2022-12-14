@@ -1,6 +1,6 @@
 NAME = "so_long"
 FILES = *.c
-CC_FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c99 -g3
+CC_FLAGS = -Wall -Wextra -Werror -g3
 LIB_FLAGS = -I minilibx -lXext -lX11 -lmlx -L minilibx
 
 all: $(NAME)

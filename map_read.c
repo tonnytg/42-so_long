@@ -33,14 +33,16 @@ static int	map_count_itens(t_game *game, char *line, int x)
 {
 	if (line[x] == 'C')
 		game->map->count_collectibles++;
-	if (x > game->map->count_columns)
+	else if (x > game->map->count_columns)
 		game->map->count_columns = x;
-	if (line[x] == 'P')
+	else if (line[x] == 'P')
 		game->map->count_player++;
-	if (line[x] == 'E')
+	else if (line[x] == 'E')
 		game->map->count_exits++;
-	if (line[x] == '1')
+	else if (line[x] == '1')
 		game->map->count_walls++;
+	else if (line[x] == '0')
+		game->map->count_floors++;
 	else
 		if (line[x] != '\n')
 			game->map->count_wrong_c++;

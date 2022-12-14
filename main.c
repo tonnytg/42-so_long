@@ -22,7 +22,10 @@ t_game	*init_game(t_game *game)
 	game->map->count_columns = 0;
 	game->map->count_collectibles = 0;
 	game->map->count_player = 0;
+	game->map->count_walls = 0;
+	game->map->count_wrong_c = 0;
 	game->map->count_exits = 0;
+	game->map->count_floors = 0;
 	game->images = malloc(sizeof(t_images));
 	game->player = malloc(sizeof(t_player));
 	game->player->x = 0;

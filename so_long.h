@@ -40,6 +40,7 @@ typedef struct s_map
 	int	count_player;
 	int	count_walls;
 	int	count_wrong_c;
+	int count_floors;
 }	t_map;
 
 typedef struct s_images
