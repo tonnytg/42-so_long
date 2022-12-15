@@ -62,7 +62,6 @@ Image Game
 - [X] Close windows when click in X of window
 - [ ] Resize windows management must remain smooth
 - [ ] Every movement must be displayed in the shell
-- [ ] Every movement must be displayed in the shell
 
 - [X] Use of images of the miniLibX is mandatory
 

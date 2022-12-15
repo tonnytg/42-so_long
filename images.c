@@ -21,20 +21,21 @@ void	put_image(t_game *game, int *image, int x, int y)
 
 int	load_images(t_game *game)
 {
-	game->images->wall = mlx_xpm_file_to_image(game->mlx, "src/images/wall.xpm",
+
+	game->images->wall = mlx_xpm_file_to_image(game->mlx, PATH_IMAGE_WALL,
 			&game->images->x, &game->images->y);
 	game->images->collectible = mlx_xpm_file_to_image(game->mlx,
-			"src/images/collectible.xpm", &game->images->x, &game->images->y);
+			PATH_IMAGE_COLLECTIBLE, &game->images->x, &game->images->y);
 	game->images->exit = mlx_xpm_file_to_image(game->mlx,
-			"src/images/exit.xpm",
+			PATH_IMAGE_EXIT,
 			&game->images->x, &game->images->y);
 	game->images->player = mlx_xpm_file_to_image(game->mlx,
-			"src/images/player.xpm",
+			PATH_IMAGE_PLAYER,
 			&game->images->x, &game->images->y);
 	if (!game->images->wall
 		|| !game->images->collectible
 		|| !game->images->exit
 		|| !game->images->player)
-		return (1);
+		msg_error("Error\nFailed to load images\n", game, 0);
 	return (0);
 }

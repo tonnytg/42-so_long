@@ -58,3 +58,9 @@ int	key_press(int keycode, t_game *game)
 	build_map(game);
 	return (0);
 }
+
+void load_events(t_game *game)
+{
+	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
+	mlx_hook(game->window, 2, 1L << 0, key_press, game);
+}

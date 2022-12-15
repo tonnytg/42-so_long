@@ -21,6 +21,12 @@
 # define BUFFER_SIZE 42
 # define PIXEL_SIZE 32
 
+#define PATH_IMAGE_WALL "./images/wall.xpm"
+#define PATH_IMAGE_COLLECTIBLE "./images/collectible.xpm"
+#define PATH_IMAGE_EXIT "./images/exit.xpm"
+#define PATH_IMAGE_PLAYER "./images/player.xpm"
+
+
 #include <mlx.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -80,21 +86,23 @@ char	*ft_strdup(char *str);
 char	*ft_char_append(char *s1, char c);
 int		ft_len_digits(unsigned int n);
 int		ft_is_negative(int n);
+int		ft_putstr(char *s);
 char	*ft_itoa(int n);
 char	*get_next_line(int fd);
-
+t_game	*init_game(t_game *game);
+void		msg_error(char *msg, t_game *game, int trigger);
+void	clean_game(t_game *game, int trigger);
+int		build_window(t_game *game);
+int		destroy_window(t_game *game);
+int		map_read_file(t_game *game, char **argv);
+void		check_path(t_game *game);
+int		load_map(char **argv, t_game *game);
+int		check_rules(t_game *game);
 int		load_images(t_game *game);
 int		build_map(t_game *game);
-int		load_map(char **argv, t_game *game);
 int		build_display_movement(t_game *game);
-int		key_press(int keycode, t_game *game);
-int		destroy_window(t_game *game);
-int		build_window(t_game *game);
 void	put_image(t_game *game, int *image, int x, int y);
-int		read_map_file(t_game *game, char **argv);
-int		check_rules(t_game *game);
-void	clean_game(t_game *game);
-int		check_path(t_game *game);
-int		readMap(t_map *map);
+int		key_press(int keycode, t_game *game);
+void	load_events(t_game *game);
 
 #endif //SO_LONG_H

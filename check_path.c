@@ -58,7 +58,7 @@ int is_valid_dfs(int column, int line, int *trigger, t_map *map)
 	return (0);
 }
 
-int check_path(t_game *game)
+void check_path(t_game *game)
 {
 	int line;
 	int column;
@@ -74,6 +74,6 @@ int check_path(t_game *game)
 
 	check = is_valid_dfs(column, line, &trigger, map);
 	if (check == 1)
-		return (0);
-	return (1);
+		return ;
+	msg_error("Error\nInvalid map path\n", game, 1);
 }

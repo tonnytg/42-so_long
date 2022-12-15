@@ -35,17 +35,17 @@ static int	map_count_itens(t_game *game, char *line, int x)
 	return (0);
 }
 
-int	read_map_file(t_game *game, char **argv)
+int	map_read_file(t_game *game, char **argv)
 {
 	int		x;
 	char	*line;
 
 	game->map->fd = open(argv[1], O_RDONLY);
 	if (game->map->fd == -1)
-		return (1);
+		msg_error("Error\nMap file not found\n", game, 1);
 	line = get_next_line(game->map->fd);
 	if (line == NULL)
-		return (1);
+		msg_error("Error\nMap file empty\n", game, 1);
 	game->map->count_lines = 0;
 	while (line != NULL)
 	{
@@ -57,6 +57,6 @@ int	read_map_file(t_game *game, char **argv)
 		line = get_next_line(game->map->fd);
 	}
 	if (check_rules(game))
-		return (1);
+		msg_error("Error\nThis is not a valid map\n", game, 1);
 	return (0);
 }

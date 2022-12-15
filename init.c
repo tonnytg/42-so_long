@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   core.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/10 18:47:44 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/02 13:48:21 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdlib.h>
 
 t_game *init_game(t_game *game)
 {
@@ -36,72 +35,26 @@ t_game *init_game(t_game *game)
 	return (game);
 }
 
-void load_events(t_game *game)
+void	clean_game(t_game *game, int trigger)
 {
-	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
-	mlx_hook(game->window, 2, 1L << 0, key_press, game);	
-}
-
-void clean_game(t_game *game)
-{
-	free(game->map->location);
-	free(game->map);
-	free(game->images);
+	if (trigger == 1)
+		game->mlx = malloc(sizeof(void *));
+	if (trigger == 2)
+	{
+		mlx_destroy_window(game->mlx, game->window);
+		mlx_destroy_image(game->mlx, game->images->wall);
+		mlx_destroy_image(game->mlx, game->images->player);
+		mlx_destroy_image(game->mlx, game->images->collectible);
+		mlx_destroy_image(game->mlx, game->images->exit);
+	}
 	free(game->player);
+	free(game->images);
 	free(game->mlx);
-	free(game);
 }
 
-int	main(int argc, char **argv)
+void	msg_error(char *msg, t_game *game, int trigger)
 {
-	t_game		*game;
-	int			error;
-
-	game = NULL;
-	if (argc != 2)
-		return (1);
-	game = init_game(game);
-	error = read_map_file(game, argv);
-	if (error == 1)
-	{
-		game->mlx = malloc(sizeof(int *));
-		clean_game(game);
-		return (1);
-	}
-	error = build_window(game);
-	if (error == 1)
-	{
-		clean_game(game);
-		return (1);
-	}
-	error = load_map(argv, game);
-	if (error == 1)
-	{
-		game->mlx = malloc(sizeof(int *));
-		clean_game(game);
-		return (1);
-	}
-	readMap(game->map);
-	error = check_path(game);
-	if (error == 1)
-	{
-		game->mlx = malloc(sizeof(int *));
-		clean_game(game);
-		return (1);
-	}
-	error = load_map(argv, game);
-	if (error == 1)
-	{
-		game->mlx = malloc(sizeof(int *));
-		clean_game(game);
-		return (1);
-	}
-	load_images(game);
-	if (game->map->location[0][0] == '1')
-		build_map(game);
-	else
-		return (1);
-	load_events(game);
-	mlx_loop(game->mlx);
-	return (0);
+	ft_putstr(msg);
+	clean_game(game, trigger);
+	exit (1);
 }

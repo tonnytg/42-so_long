@@ -1,36 +1,56 @@
-NAME = "so_long"
-SRC = ./src
-FILES = $(SRC)/*.c
-CC_FLAGS = -Wall -Wextra -Werror -Wpedantic -std=c99 -g3
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#              #
+#    Updated: 2022/12/15 04:09:33 by antthoma         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-all:
-	make -C $(SRC)/minilibx
-	clang $(CC_FLAGS) $(FILES) -I src/minilibx -lXext -lX11 -lmlx -L src/minilibx  -o $(NAME)
+NAME		=		so_long
+HEADER		=		$(NAME).h
+CC			=		clang
+FILES 		=		init.c 			\
+					events.c 		\
+					check_path.c	\
+					get_next_line.c \
+					utils.c 		\
+					utils_math.c 	\
+					map.c 			\
+					map_read_file.c	\
+					window.c 		\
+					images.c 		\
+					main.c
+OBJ 		=		$(FILES:.c=.o)
+MINILIBX	= 		./minilibx/libmlx_Linux.a
+CFLAGS		= 		-Wall -Wextra -Werror -Wpedantic -g3
+LIB_FLAGS	=		-I minilibx -lXext -lX11 -lmlx -L minilibx
 
-$(NAME): all
+all:$(NAME)
+
+$(NAME): $(OBJ) $(MINILIBX)
+	${CC} ${CFLAGS} $(FILES) -I ./minilibx -lXext -lX11 -lmlx -L ./minilibx  -o $(NAME)
+
+$(OBJ):
+	$(CC) $(CFLAGS) -c $(FILES) -I ./$(HEADER)
+
+$(MINILIBX):
+	git clone https://github.com/42Paris/minilibx-linux.git minilibx
+	cd ./minilibx && ./configure
 
 clean:
 	rm -f $(NAME)
+	rm -f $(OBJ)
 
 fclean: clean
-	rm src/minilibx/libmlx_Darwin.a
-	rm src/minilibx/libmlx.a
-	rm src/minilibx/test/main.o
-	rm src/minilibx/test/mlx-test
-	rm -rf src/minilibx/obj/
+	rm -rf ./minilibx
 
-re:
-	make fclean
-	make all
+debug: re
+	leaks $(NAME) --atExit -- ./$(NAME) map.ber
 
-debug: all
-	leaks --atExit --list -- ./so_long src/maps/map.ber
-	leaks --atExit --list -- ./so_long src/maps/1.ber
-	leaks --atExit --list -- ./so_long src/maps/2.ber
-	leaks --atExit --list -- ./so_long src/maps/3.ber
-	leaks --atExit --list -- ./so_long src/maps/4.ber
-	leaks --atExit --list -- ./so_long src/maps/5.ber
-	leaks --atExit --list -- ./so_long src/maps/6.ber
-	leaks --atExit --list -- ./so_long src/maps/7.ber
+re: fclean all
 
 .PHONY: all clean fclean re
