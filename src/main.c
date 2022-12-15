@@ -52,6 +52,11 @@ void clean_game(t_game *game)
 	free(game);
 }
 
+void	expose_hook(t_game *game)
+{
+    build_map(game);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game		*game;
@@ -102,6 +107,7 @@ int	main(int argc, char **argv)
 	else
 		return (1);
 	load_events(game);
+	mlx_expose_hook(win, expose_hook, NULL);
 	mlx_loop(game->mlx);
 	return (0);
 }
