@@ -96,5 +96,6 @@ int		check_rules(t_game *game);
 void	clean_game(t_game *game);
 int		check_path(t_game *game);
 int		readMap(t_map *map);
+void	expose_hook(t_game *game);
 
 #endif //SO_LONG_H
