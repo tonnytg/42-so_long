@@ -52,6 +52,11 @@ void clean_game(t_game *game)
 	free(game);
 }
 
+void	expose_hook(t_game *game)
+{
+    build_map(game);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game		*game;
@@ -74,13 +79,35 @@ int	main(int argc, char **argv)
 		clean_game(game);
 		return (1);
 	}
-	load_map(argv, game);
+	error = load_map(argv, game);
+	if (error == 1)
+	{
+		game->mlx = malloc(sizeof(int *));
+		clean_game(game);
+		return (1);
+	}
+	readMap(game->map);
+	error = check_path(game);
+	if (error == 1)
+	{
+		game->mlx = malloc(sizeof(int *));
+		clean_game(game);
+		return (1);
+	}
+	error = load_map(argv, game);
+	if (error == 1)
+	{
+		game->mlx = malloc(sizeof(int *));
+		clean_game(game);
+		return (1);
+	}
 	load_images(game);
 	if (game->map->location[0][0] == '1')
 		build_map(game);
 	else
 		return (1);
 	load_events(game);
+	mlx_expose_hook(win, expose_hook, NULL);
 	mlx_loop(game->mlx);
 	return (0);
 }

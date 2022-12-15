@@ -94,5 +94,8 @@ void	put_image(t_game *game, int *image, int x, int y);
 int		read_map_file(t_game *game, char **argv);
 int		check_rules(t_game *game);
 void	clean_game(t_game *game);
+int		check_path(t_game *game);
+int		readMap(t_map *map);
+void	expose_hook(t_game *game);
 
 #endif //SO_LONG_H
