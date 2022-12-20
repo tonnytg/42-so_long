@@ -60,9 +60,8 @@ Image Game
 
 - [X] Press ESC must close window
 - [X] Close windows when click in X of window
-- [ ] Resize windows management must remain smooth
-- [ ] Every movement must be displayed in the shell
-- [ ] Every movement must be displayed in the shell
+- [X] Resize windows management must remain smooth
+- [X] Every movement must be displayed in the shell
 
 - [X] Use of images of the miniLibX is mandatory
 
