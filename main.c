@@ -6,7 +6,7 @@
 /*   By: antthoma <antthoma@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 13:48:03 by antthoma          #+#    #+#             */
-/*   Updated: 2022/12/12 04:18:23 by antthoma         ###   ########.fr       */
+/*   Updated: 2022/12/21 03:37:35 by antthoma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_game	*init_game(t_game *game)
 	game->map->count_columns = 0;
 	game->map->count_collectibles = 0;
 	game->map->count_player = 0;
-	game->map->count_walls = 0;
-	game->map->count_wrong_c = 0;
 	game->map->count_exits = 0;
 	game->map->count_floors = 0;
+	game->map->count_walls = 0;
+	game->map->count_wrong_c = 0;
 	game->images = malloc(sizeof(t_images));
 	game->player = malloc(sizeof(t_player));
 	game->player->x = 0;
@@ -39,23 +39,6 @@ void	load_events(t_game *game)
 {
 	mlx_hook(game->window, 17, 1L << 2, destroy_window, game);
 	mlx_hook(game->window, 2, 1L << 0, key_press, game);
-}
-
-void	clean_game(t_game *game, int trigger)
-{
-	if (trigger == 1)
-		game->mlx = malloc(sizeof(void *));
-	if (trigger == 2)
-	{
-		mlx_destroy_window(game->mlx, game->window);
-		mlx_destroy_image(game->mlx, game->images->wall);
-		mlx_destroy_image(game->mlx, game->images->player);
-		mlx_destroy_image(game->mlx, game->images->collectible);
-		mlx_destroy_image(game->mlx, game->images->exit);
-	}
-	free(game->player);
-	free(game->images);
-	free(game->mlx);
 }
 
 int	msg_error(t_game *game, char *msg, int trigger)
@@ -82,7 +65,11 @@ int	main(int argc, char **argv)
 	if (check_map_walls(game))
 		msg_error(game, "Error\ninvalid map, wrong walls\n", 2);
 	build_map(game);
+	if (check_path(game))
+		msg_error(game, "Error\ninvalid path\n", 2);
+	load_map(argv, game);
 	load_events(game);
+	mlx_expose_hook(game->window, expose_hook, game);
 	mlx_loop(game->mlx);
 	return (0);
 }

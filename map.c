@@ -42,7 +42,6 @@ int	build_map(t_game *game)
 		}
 		line++;
 	}
-	build_display_movement(game);
 	return (0);
 }
 
