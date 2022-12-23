@@ -106,6 +106,8 @@ int	main(int argc, char **argv)
 		build_map(game);
 	else
 		return (1);
+	if (check_path(game))
+		msg_error(game, "Error\ninvalid path\n", 2);
 	load_events(game);
 	mlx_expose_hook(win, expose_hook, NULL);
 	mlx_loop(game->mlx);
