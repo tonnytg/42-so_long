@@ -14,7 +14,7 @@
 
 int	destroy_window(t_game *game)
 {
-	mlx_destroy_window(game->mlx, game->window);
+	clean_game(game, 2);
 	exit(0);
 }
 
