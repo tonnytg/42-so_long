@@ -42,7 +42,6 @@ int	build_map(t_game *game)
 		}
 		line++;
 	}
-	build_display_movement(game);
 	return (0);
 }
 
@@ -52,9 +51,11 @@ static void	ft_init_map(t_game *game, char **argv)
 	int	y;
 
 	game->map->fd = open(argv[1], O_RDONLY);
+	if (game->map->location != NULL)
+		zero_map_location(game);
 	game->map->location = malloc(sizeof(int *) * game->map->count_lines);
 	x = 0;
-	while ( x < game->map->count_lines)
+	while (x < game->map->count_lines)
 	{
 		game->map->location[x] = malloc(sizeof(int) * game->map->count_columns);
 		x++;
@@ -74,33 +75,19 @@ static void	ft_init_map(t_game *game, char **argv)
 
 int	load_map(char **argv, t_game *game)
 {
-	int		column;
-	int		line;
-	char	*temp_content;
-
 	ft_init_map(game, argv);
-	temp_content = get_next_line(game->map->fd);
-	if (temp_content == NULL)
-		return (1);
-	line = 0;
-	while (line < game->map->count_lines)
+	game->line = 0;
+	game->column = 0;
+	game->content = get_next_line(game->map->fd);
+	if (loop_content_map(game))
 	{
-		column = 0;
-		while (column < game->map->count_columns)
-		{
-			if (temp_content[column] != '\n')
-				if (temp_content[column] == 'P') {
-					game->player->y = line;
-					game->player->x = column;
-				}
-				game->map->location[line][column] = temp_content[column];
-			column++;
-		}
-		free(temp_content);
-		temp_content = get_next_line(game->map->fd);
-		if (temp_content == NULL)
-			return (0);
-		line++;
+		free(game->content);
+		return (1);
+	}
+	if (game->line == 0)
+	{
+		free(game->content);
+		return (1);
 	}
 	return (0);
 }
@@ -116,7 +103,9 @@ int	build_display_movement(t_game *game)
 		free(str);
 		return (1);
 	}
-	mlx_string_put(game->mlx, game->window, 10, 15, 0xFF99FF, str);
+	ft_putstr("Player Moved: ");
+	ft_putstr(str);
+	ft_putstr("\n");
 	free(str);
 	return (0);
 }
