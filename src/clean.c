@@ -12,6 +12,20 @@
 
 #include "so_long.h"
 
+int	zero_map_location(t_game *game)
+{
+	int	x;
+
+	x = 0;
+	while (x < game->map->count_lines)
+	{
+		free(game->map->location[x]);
+		x++;
+	}
+	free(game->map->location);
+	return (0);
+}
+
 int	clean_game(t_game *game, int trigger)
 {
 	if (trigger == 1)
